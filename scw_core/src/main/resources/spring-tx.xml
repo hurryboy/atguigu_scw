@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+    <!--事务管理器-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <!-- 2、基于配置式的事务 -->
+    <!-- 2.1）、配置事务增强 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--配置事务属性  -->
+        <tx:attributes>
+            <!-- tx:method：指定哪些方法怎么控制事务;name="*"所有方法都要加事务 -->
+            <tx:method name="*"/>
+            <!--  查询方法 -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="select*" read-only="true"/>
+            <tx:method name="list*" read-only="true"/>
+            <!-- 其他的方法 -->
+        </tx:attributes>
+    </tx:advice>
+    <!-- 重要的东西写配置，一般用注解；经常改的参数写配置；  -->
+
+    <!-- 2.2）、切入的事务切面 -->
+    <aop:config>
+        <!-- 指定事务切入到哪些方法  -->
+        <aop:pointcut expression="execution(* com.atguigu.service..*.*(..))" id="txPoint"/>
+        <!-- 指定事务增强器使用哪个切入点进行切入  -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint"/>
+    </aop:config>
+
+</beans>

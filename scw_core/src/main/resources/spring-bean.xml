@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--注册组件-->
+    <!-- 专门注册组件 -->
+    <context:component-scan base-package="com.dbing">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>-->
+    </context:component-scan>
+
+
+    <!--引入外部属性文件-->
+    <context:property-placeholder location="classpath:druid.properties"/>
+
+    <!--注册数据源-->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="username" value="${mysql.username}"/>
+        <property name="password" value="${mysql.password}"/>
+        <property name="url" value="${mysql.url}"/>
+        <property name="driverClassName" value="${mysql.driver}"/>
+        <!--配置获取连接等待超时时间-->
+        <property name="maxWait" value="10000" />
+
+        <!--申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。-->
+        <property name="testOnBorrow" value="true" />
+        <!--归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能-->
+        <property name="testOnReturn" value="true" />
+    </bean>
+
+   <!-- <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="driverClassName" value="${jdbc.driver}"></property>
+    </bean>-->
+    
+    <!--配置Spring邮件发送器-->
+    <bean id="sender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="username" value="cbz18170628673@dbing.com"/>
+        <property name="password" value="cbz.620017"/>
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="host" value="localhost"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dbing.repository.TProjectOrganiserMapper">
+  <resultMap id="BaseResultMap" type="com.dbing.bean.TProjectOrganiser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="remark" jdbcType="CHAR" property="remark" />
+    <result column="descs" jdbcType="CHAR" property="descs" />
+    <result column="phone" jdbcType="INTEGER" property="phone" />
+    <result column="servicephone" jdbcType="INTEGER" property="servicephone" />
+    <result column="paycard" jdbcType="INTEGER" property="paycard" />
+    <result column="legalCard" jdbcType="INTEGER" property="legalcard" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, remark, descs, phone, servicephone, paycard, legalCard
+  </sql>
+  <select id="selectByExample" parameterType="com.dbing.bean.TProjectOrganiserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_project_organiser
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_project_organiser
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_project_organiser
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dbing.bean.TProjectOrganiserExample">
+    delete from t_project_organiser
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dbing.bean.TProjectOrganiser">
+    insert into t_project_organiser (id, remark, descs, 
+      phone, servicephone, paycard, 
+      legalCard)
+    values (#{id,jdbcType=INTEGER}, #{remark,jdbcType=CHAR}, #{descs,jdbcType=CHAR}, 
+      #{phone,jdbcType=INTEGER}, #{servicephone,jdbcType=INTEGER}, #{paycard,jdbcType=INTEGER}, 
+      #{legalcard,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dbing.bean.TProjectOrganiser">
+    insert into t_project_organiser
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="descs != null">
+        descs,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="servicephone != null">
+        servicephone,
+      </if>
+      <if test="paycard != null">
+        paycard,
+      </if>
+      <if test="legalcard != null">
+        legalCard,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=CHAR},
+      </if>
+      <if test="descs != null">
+        #{descs,jdbcType=CHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=INTEGER},
+      </if>
+      <if test="servicephone != null">
+        #{servicephone,jdbcType=INTEGER},
+      </if>
+      <if test="paycard != null">
+        #{paycard,jdbcType=INTEGER},
+      </if>
+      <if test="legalcard != null">
+        #{legalcard,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dbing.bean.TProjectOrganiserExample" resultType="java.lang.Long">
+    select count(*) from t_project_organiser
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_project_organiser
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=CHAR},
+      </if>
+      <if test="record.descs != null">
+        descs = #{record.descs,jdbcType=CHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=INTEGER},
+      </if>
+      <if test="record.servicephone != null">
+        servicephone = #{record.servicephone,jdbcType=INTEGER},
+      </if>
+      <if test="record.paycard != null">
+        paycard = #{record.paycard,jdbcType=INTEGER},
+      </if>
+      <if test="record.legalcard != null">
+        legalCard = #{record.legalcard,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_project_organiser
+    set id = #{record.id,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=CHAR},
+      descs = #{record.descs,jdbcType=CHAR},
+      phone = #{record.phone,jdbcType=INTEGER},
+      servicephone = #{record.servicephone,jdbcType=INTEGER},
+      paycard = #{record.paycard,jdbcType=INTEGER},
+      legalCard = #{record.legalcard,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dbing.bean.TProjectOrganiser">
+    update t_project_organiser
+    <set>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=CHAR},
+      </if>
+      <if test="descs != null">
+        descs = #{descs,jdbcType=CHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=INTEGER},
+      </if>
+      <if test="servicephone != null">
+        servicephone = #{servicephone,jdbcType=INTEGER},
+      </if>
+      <if test="paycard != null">
+        paycard = #{paycard,jdbcType=INTEGER},
+      </if>
+      <if test="legalcard != null">
+        legalCard = #{legalcard,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dbing.bean.TProjectOrganiser">
+    update t_project_organiser
+    set remark = #{remark,jdbcType=CHAR},
+      descs = #{descs,jdbcType=CHAR},
+      phone = #{phone,jdbcType=INTEGER},
+      servicephone = #{servicephone,jdbcType=INTEGER},
+      paycard = #{paycard,jdbcType=INTEGER},
+      legalCard = #{legalcard,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
